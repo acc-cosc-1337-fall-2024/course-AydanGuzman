@@ -12,7 +12,7 @@ bool TicTacToe::game_over()
         set_winner();
         return true;
     }
-    else if (check_board_full()) 
+    else if (check_board_full() && winner == "") 
     {
         winner = "C";
         return true;
