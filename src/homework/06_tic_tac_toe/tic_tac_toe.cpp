@@ -3,7 +3,7 @@
 
 using std::cout;
 
-
+TicTacToe::TicTacToe(int size) : pegs(size * size, " ") {}
 
 bool TicTacToe::game_over()
 {
@@ -13,7 +13,7 @@ bool TicTacToe::game_over()
         return true;
     }
     else if (check_board_full() && winner == "") 
-    {
+    { 
         winner = "C";
         return true;
     }
@@ -78,31 +78,19 @@ bool TicTacToe::check_board_full()
 
 bool TicTacToe::check_column_win()
 {
-    for (int i = 0; i < 3; i++)
-    {
-        if (pegs[i] != " " && pegs[i] == pegs[i+3] && pegs[i] == pegs[i+6])
-        {
-            return true;
-        }
-    }
+
     return false;
 }
 
 bool TicTacToe::check_row_win()
 {
-    for (int i = 0; i < 9; i += 3) 
-    {
-        if (pegs[i] != " " && pegs[i] == pegs[i+1] && pegs[i] == pegs[i+2])
-        {
-            return true;
-        }
-    }
+
     return false;
 }
 
 bool TicTacToe::check_diagonal_win()
 {
-    return ((pegs[0] != " " && pegs[0] == pegs[4] && pegs[0] == pegs[8]) || (pegs[2] != " " && pegs[2] == pegs[4] && pegs[2] == pegs[6]));
+    return false;
 }
 
 void TicTacToe::set_winner()
@@ -116,3 +104,4 @@ void TicTacToe::set_winner()
         winner = "X";
     }
 }
+

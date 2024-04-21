@@ -3,8 +3,11 @@
 
 #include <iostream>
 #include <string>
+#include "tic_tac_toe_4.h"
+#include "tic_tac_toe_3.h"
 
 using std::cout; using std::cin; using std::string;
+using std::make_unique; using std::unique_ptr;
 
 
 int main() 
@@ -18,8 +21,29 @@ int main()
 
 		do
 		{
-			TicTacToe game;
+			unique_ptr<TicTacToe> game;
 			std::string first_player;
+			int choice;
+	
+			cout<< "Choose game mode: 3 or 4: ";
+			cin >> choice;
+
+			while (choice != 3 && choice != 4)
+			{
+				cout << "Invalid input. Choose 3 or 4: ";
+				cin.clear();
+				cin >> choice;
+				
+			}
+
+			if (choice == 3)
+			{
+				game = make_unique<TicTacToe3>();
+			}
+			else 
+			{
+				game = make_unique<TicTacToe4>();
+			}
 
 			cout<<"Enter first player (X or O): ";
 			cin>>first_player;
@@ -30,18 +54,18 @@ int main()
 				cin >> first_player;
 			}
 
-			game.start_game(first_player);
+			game->start_game(first_player);
 
 			int position;
 
-			while(!game.game_over())
+			while(!game->game_over())
 			{
 				cout<<"Enter a position: ";
 				cin>>position;
-				game.mark_board(position);
-				game.display_board();
+				game->mark_board(position);
+				game->display_board();
 
-				while ((position < 1 || position > 9) || (game.get_player() != "X" && game.get_player() != "O") || (game.get_winner() != ""))
+				while ((position < 1 || position > (choice * choice)) || (game->get_player() != "X" && game->get_player() != "O") || (game->get_winner() != ""))
 				{
 					cout << "Invalid Input. Enter a postion (1-9): ";
 					cin.clear();
@@ -53,8 +77,8 @@ int main()
 			
 
 			cout << "Game Over!\n";
-			game.display_board();
-			string winner = game.get_winner();
+			game->display_board();
+			string winner = game->get_winner();
 
 			if (winner == "C")
 			{
@@ -66,7 +90,7 @@ int main()
 			
 			}
 
-			manager.save_game(game);
+			manager.save_game(std::move(game));
 
 			cout << "Play again? (y or Y for yes): ";
 			cin >> user_choice;
